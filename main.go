@@ -2,7 +2,6 @@ package main
 
 import (
 	"go-backend/controllers"
-	_ "go-backend/docs"
 	"go-backend/middlewares"
 	"go-backend/models"
 	"time"
