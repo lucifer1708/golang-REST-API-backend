@@ -20,7 +20,7 @@ func GenrateToken(user_id int) (string, error) {
 	claims["authorized"] = true
 	claims["user_id"] = user_id
 	claims["exp"] = time.Now().Add(time.Hour * time.Duration(token_life)).Unix()
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("API_SECRET")))
 }
 
@@ -57,7 +57,7 @@ func ExtractTokenID(c *gin.Context) (uint, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte("Thisisecrestkey"), nil
+		return []byte(os.Getenv("API_SECRET")), nil
 	})
 	if err != nil {
 		return 0, err
@@ -72,3 +72,4 @@ func ExtractTokenID(c *gin.Context) (uint, error) {
 	}
 	return 0, nil
 }
+

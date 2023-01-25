@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"go-backend/utils/token"
 	"html"
 	"strings"
 
@@ -19,7 +18,6 @@ type User struct {
 }
 
 func GetUserByID(uid uint) (User, error) {
-
 	var u User
 	if err := DB.First(&u, uid).Error; err != nil {
 		return u, errors.New("User not found!")
@@ -29,6 +27,15 @@ func GetUserByID(uid uint) (User, error) {
 
 	return u, nil
 
+}
+
+func GetUserByUsername(username string) (User, error) {
+	var user User
+	err := DB.Where("username", username).Find(&user).Error
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
 }
 
 func (u *User) PrepareGive() {
@@ -56,21 +63,9 @@ func VerifyPassword(password, hashpaswd string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashpaswd), []byte(password))
 }
 
-func LoginCheck(username string, password string) (string, error) {
-	var err error
-	u := User{}
-	// err = DB.Model(User{}).Where("username=?", username).Take(&u).Error
-  err = DB.Where("username=?", username).Take(&u).Error
-	checkNil(err)
-	err = VerifyPassword(password, u.Password)
-	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
-		return "", err
-	}
-	token, err := token.GenrateToken(int(u.ID))
-	if err != nil {
-		return "", err
-	}
-	return token, nil
+func (u *User) ValidatePass(password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+
 }
 
 var DB *gorm.DB

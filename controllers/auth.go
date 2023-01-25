@@ -4,6 +4,7 @@ import (
 	"go-backend/models"
 	"go-backend/utils/token"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,6 +12,7 @@ type RegisterInput struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
 func DeleteUser(c *gin.Context) {
 	var user []models.User
 	id := c.Param("id")
@@ -84,23 +86,34 @@ type LoginInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
-func Login(c *gin.Context) {
+func Login(context *gin.Context) {
 	var input LoginInput
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+
+	if err := context.ShouldBindJSON(&input); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	u := models.User{}
-	u.Username = input.Username
-	u.Password = input.Password
-	token, err := models.LoginCheck(u.Username, u.Password)
+
+	user, err := models.GetUserByUsername(input.Username)
+
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "username or password is incorrect."})
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	err = user.ValidatePass(input.Password)
 
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	jwt, err := token.GenrateToken(int(user.ID))
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"token": jwt})
 }
