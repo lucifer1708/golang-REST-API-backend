@@ -15,10 +15,6 @@ const docTemplate = `{
             "url": "https://sumitdhiman.live",
             "email": "sd08012003@gmail.com"
         },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
