@@ -1,0 +1,69 @@
+basePath: /api
+host: localhost:1323
+info:
+  contact:
+    email: sd08012003@gmail.com
+    name: Sumit Dhiman
+    url: https://sumitdhiman.live
+  description: A Blog app made to publish my blogs in Go using Gin framework.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Blog app in Go
+  version: "1.0"
+paths:
+  /admin/user:
+    get:
+      description: respond with json of user data
+      produces:
+      - application/json
+      responses: {}
+      summary: Shows the current user logged in.
+      tags:
+      - Current User
+  /login:
+    post:
+      description: Login the user
+      produces:
+      - application/json
+      responses: {}
+      summary: Login view
+      tags:
+      - Login
+  /register:
+    post:
+      description: Responds with the Registeration of user
+      produces:
+      - application/json
+      responses: {}
+      summary: Register The user
+      tags:
+      - Register
+  /user/:id:
+    get:
+      description: Responds with the user details
+      produces:
+      - application/json
+      responses: {}
+      summary: Get the user with id
+      tags:
+      - GetUser
+  /user/delete/:id:
+    post:
+      description: Responds with the deletion of user
+      produces:
+      - application/json
+      responses: {}
+      summary: Deletes The user with id
+      tags:
+      - Delete
+  /users:
+    get:
+      description: Responds with the data of users
+      produces:
+      - application/json
+      responses: {}
+      summary: Return all users
+      tags:
+      - AllUser
+swagger: "2.0"

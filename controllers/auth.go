@@ -13,6 +13,12 @@ type RegisterInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+// DeleteUser godoc
+// @Summary      Deletes The user with id
+// @Description  Responds with the deletion of user
+// @Tags         Delete
+// @Produce      json
+// @Router       /user/delete/:id [POST]
 func DeleteUser(c *gin.Context) {
 	var user []models.User
 	id := c.Param("id")
@@ -24,12 +30,24 @@ func DeleteUser(c *gin.Context) {
 	})
 }
 
+// AllUser       godoc
+// @Summary      Return all users
+// @Description  Responds with the data of users
+// @Tags         AllUser
+// @Produce      json
+// @Router       /users [GET]
 func AllUser(c *gin.Context) {
 	var user []models.User
 	models.DB.Find(&user)
 	c.JSON(http.StatusOK, &user)
 }
 
+// GetUser godoc
+// @Summary      Get the user with id
+// @Description  Responds with the user details 
+// @Tags         GetUser
+// @Produce      json
+// @Router       /user/:id [GET]
 func GetUser(c *gin.Context) {
 	var user []models.User
 	if err := models.DB.Where("id=?", c.Param("id")).First(&user).Error; err != nil {
@@ -40,6 +58,12 @@ func GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, &user)
 }
 
+// Register      godoc
+// @Summary      Register The user
+// @Description  Responds with the Registeration of user
+// @Tags         Register
+// @Produce      json
+// @Router       /register [POST]
 func Register(c *gin.Context) {
 	var input RegisterInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -62,6 +86,12 @@ func Register(c *gin.Context) {
 	})
 }
 
+// CurrentUser godoc
+// @Summary      Shows the current user logged in.
+// @Description  respond with json of user data
+// @Tags         Current User
+// @Produce      json
+// @Router       /admin/user [GET]
 func CurrentUser(c *gin.Context) {
 
 	user_id, err := token.ExtractTokenID(c)
@@ -86,6 +116,12 @@ type LoginInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+// Login         godoc
+// @Summary      Login view
+// @Description  Login the user
+// @Tags         Login
+// @Produce      json
+// @Router       /login [POST]
 func Login(context *gin.Context) {
 	var input LoginInput
 

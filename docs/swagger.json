@@ -1,0 +1,99 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A Blog app made to publish my blogs in Go using Gin framework.",
+        "title": "Blog app in Go",
+        "contact": {
+            "name": "Sumit Dhiman",
+            "url": "https://sumitdhiman.live",
+            "email": "sd08012003@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:1323",
+    "basePath": "/api",
+    "paths": {
+        "/admin/user": {
+            "get": {
+                "description": "respond with json of user data",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Current User"
+                ],
+                "summary": "Shows the current user logged in.",
+                "responses": {}
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Login the user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login view",
+                "responses": {}
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "Responds with the Registeration of user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Register"
+                ],
+                "summary": "Register The user",
+                "responses": {}
+            }
+        },
+        "/user/:id": {
+            "get": {
+                "description": "Responds with the user details",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GetUser"
+                ],
+                "summary": "Get the user with id",
+                "responses": {}
+            }
+        },
+        "/user/delete/:id": {
+            "post": {
+                "description": "Responds with the deletion of user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Delete"
+                ],
+                "summary": "Deletes The user with id",
+                "responses": {}
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Responds with the data of users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AllUser"
+                ],
+                "summary": "Return all users",
+                "responses": {}
+            }
+        }
+    }
+}
