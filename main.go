@@ -1,14 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"go-backend/controllers"
 	_ "go-backend/docs"
 	"go-backend/middlewares"
 	"go-backend/models"
 	"net/http"
 	"net/url"
-	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -23,12 +21,9 @@ import (
 // @contact.name   Sumit Dhiman
 // @contact.url    https://sumitdhiman.live
 // @contact.email  sd08012003@gmail.com
-// @license.name  Apache 2.0
-// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 // @host      localhost:1323
 // @BasePath  /api
 func main() {
-	fmt.Println(os.Getenv("API_SECRET"))
 	models.ConnectDB()
 	r := gin.Default()
 
