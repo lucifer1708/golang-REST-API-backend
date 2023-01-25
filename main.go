@@ -2,16 +2,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"go-backend/controllers"
 	_ "go-backend/docs"
 	"go-backend/middlewares"
 	"go-backend/models"
+	"net/http"
+	"net/url"
 	"os"
 	"time"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title           Blog app in Go
@@ -28,6 +31,11 @@ func main() {
 	fmt.Println(os.Getenv("API_SECRET"))
 	models.ConnectDB()
 	r := gin.Default()
+
+  r.GET("/", func(ctx *gin.Context) {
+    location:=url.URL{Path:"/docs/index.html",}
+    ctx.Redirect(http.StatusFound, location.RequestURI())
+  })
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	public := r.Group("/api")
 	public.POST("/register", controllers.Register)
